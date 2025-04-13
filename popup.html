@@ -8,58 +8,22 @@
 <body>
   <div class="container">
     <h1>NovelAI Image Size Presets</h1>
-    
-    <div class="preset-form">      
-      <div class="preset-item">
-        <div class="preset-label">Preset 1:</div>
-        <div class="preset-inputs">
-          <input type="number" id="preset1-width" placeholder="W" min="64" step="64">
-          <span>×</span>
-          <input type="number" id="preset1-height" placeholder="H" min="64" step="64">
-        </div>
-      </div>
-      
-      <div class="preset-item">
-        <div class="preset-label">Preset 2:</div>
-        <div class="preset-inputs">
-          <input type="number" id="preset2-width" placeholder="W" min="64" step="64">
-          <span>×</span>
-          <input type="number" id="preset2-height" placeholder="H" min="64" step="64">
-        </div>
-      </div>
-      
-      <div class="preset-item">
-        <div class="preset-label">Preset 3:</div>
-        <div class="preset-inputs">
-          <input type="number" id="preset3-width" placeholder="W" min="64" step="64">
-          <span>×</span>
-          <input type="number" id="preset3-height" placeholder="H" min="64" step="64">
-        </div>
-      </div>
-      
-      <div class="preset-item">
-        <div class="preset-label">Preset 4:</div>
-        <div class="preset-inputs">
-          <input type="number" id="preset4-width" placeholder="W" min="64" step="64">
-          <span>×</span>
-          <input type="number" id="preset4-height" placeholder="H" min="64" step="64">
-        </div>
+
+    <div class="preset-form">
+      <!-- 동적으로 프리셋 행이 들어갈 영역 -->
+      <div id="presets-container"></div>
+
+      <!-- 프리셋 추가 버튼 -->
+      <div class="button-container">
+        <button id="add-button">+ Add preset</button>
       </div>
 
-      <div class="preset-item">
-        <div class="preset-label">Preset 5:</div>
-        <div class="preset-inputs">
-          <input type="number" id="preset5-width" placeholder="W" min="64" step="64">
-          <span>×</span>
-          <input type="number" id="preset5-height" placeholder="H" min="64" step="64">
-        </div>
-      </div>
-      
+      <!-- 저장·초기화 버튼 -->
       <div class="button-container">
         <button id="save-button">Save</button>
         <button id="reset-button">Reset to defaults</button>
       </div>
-      
+
       <div id="status-message"></div>
     </div>
   </div>
