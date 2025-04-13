@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "NovelAI Dimension Presets",
+    "name": "NovelAI Image Size Presets",
     "version": "1.0",
-    "description": "Adds customizable preset dimension buttons on novelai.net/image",
+    "description": "Adds customizable preset image size buttons on novelai.net/image",
     "action": {
       "default_popup": "popup.html"
     },
