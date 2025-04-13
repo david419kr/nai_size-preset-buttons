@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NovelAI 해상도 프리셋</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>NovelAI 해상도 프리셋 설정</h1>
+    
+    <div class="preset-form">
+      <h2>프리셋 버튼 설정</h2>
+      
+      <div class="preset-item">
+        <div class="preset-label">프리셋 1:</div>
+        <div class="preset-inputs">
+          <input type="number" id="preset1-width" placeholder="너비" min="64" step="64">
+          <span>×</span>
+          <input type="number" id="preset1-height" placeholder="높이" min="64" step="64">
+        </div>
+      </div>
+      
+      <div class="preset-item">
+        <div class="preset-label">프리셋 2:</div>
+        <div class="preset-inputs">
+          <input type="number" id="preset2-width" placeholder="너비" min="64" step="64">
+          <span>×</span>
+          <input type="number" id="preset2-height" placeholder="높이" min="64" step="64">
+        </div>
+      </div>
+      
+      <div class="preset-item">
+        <div class="preset-label">프리셋 3:</div>
+        <div class="preset-inputs">
+          <input type="number" id="preset3-width" placeholder="너비" min="64" step="64">
+          <span>×</span>
+          <input type="number" id="preset3-height" placeholder="높이" min="64" step="64">
+        </div>
+      </div>
+      
+      <div class="preset-item">
+        <div class="preset-label">프리셋 4:</div>
+        <div class="preset-inputs">
+          <input type="number" id="preset4-width" placeholder="너비" min="64" step="64">
+          <span>×</span>
+          <input type="number" id="preset4-height" placeholder="높이" min="64" step="64">
+        </div>
+      </div>
+      
+      <div class="button-container">
+        <button id="save-button">저장</button>
+        <button id="reset-button">기본값으로 재설정</button>
+      </div>
+      
+      <div id="status-message"></div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
