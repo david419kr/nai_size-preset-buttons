@@ -2,11 +2,15 @@
 
 Add customizable size preset buttons on NAI image generation GUI.  
 Double click to insert reverse. (For example, if you double click 896x1152 button, then 1152x896 will be input)  
+You can also add or remove buttons.  
 
 NAI画像生成GUIに、カスタム可能な画像サイズプリセットボタンを追加します。  
 ボタンをダブルクリックすると、縦横を転換できます。（例えば、896x1152ボタンを２回押すと、1152x896になります。）  
+ボタンの個数も変えられます。  
 
-![image](https://github.com/user-attachments/assets/3435320b-4afe-440f-9368-0eda05ae8200)
+![image](https://github.com/user-attachments/assets/30ad2b9a-8fdc-4a79-b8e1-d9ef5d130547)
+![image](https://github.com/user-attachments/assets/1784057f-5d93-4b5a-84d4-0cc318f2f3a9)
+
 
 
 ## How to install
