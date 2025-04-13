@@ -1,9 +1,10 @@
 // 기본 프리셋 값
 const DEFAULT_PRESETS = [
-    { width: 832, height: 1216, label: '832×1216' },
+  { width: 1024, height: 1024, label: '1024×1024' },
     { width: 896, height: 1152, label: '896x1152' },
+    { width: 832, height: 1216, label: '832×1216' },
     { width: 768, height: 1280, label: '768×1280' },
-    { width: 1024, height: 1024, label: '1024×1024' }
+    { width: 512, height: 1920, label: '512×1920' }
   ];
   
   // DOM 요소 가져오기
@@ -42,7 +43,7 @@ const DEFAULT_PRESETS = [
       chrome.storage.sync.get('naiPresets', (data) => {
         const presets = data.naiPresets || DEFAULT_PRESETS;
         
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 5; i++) {
           const preset = presets[i] || DEFAULT_PRESETS[i];
           document.getElementById(`preset${i+1}-width`).value = preset.width;
           document.getElementById(`preset${i+1}-height`).value = preset.height;
@@ -54,13 +55,13 @@ const DEFAULT_PRESETS = [
     function savePresets() {
       const presets = [];
       
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 5; i++) {
         const width = parseInt(document.getElementById(`preset${i}-width`).value);
         const height = parseInt(document.getElementById(`preset${i}-height`).value);
         
         // 유효성 검사
         if (isNaN(width) || isNaN(height) || width < 64 || height < 64) {
-          showStatus(`프리셋 ${i}의 값이 유효하지 않습니다. 64 이상의 숫자를 입력하세요.`, true);
+          showStatus(`Preset ${i} value error. Must be larger than 64.`, true);
           return;
         }
         
@@ -74,9 +75,9 @@ const DEFAULT_PRESETS = [
       // 스토리지에 저장
       chrome.storage.sync.set({ naiPresets: presets }, () => {
         if (chrome.runtime.lastError) {
-          showStatus('저장 중 오류가 발생했습니다: ' + chrome.runtime.lastError.message, true);
+          showStatus('Error saving: ' + chrome.runtime.lastError.message, true);
         } else {
-          showStatus('저장되었습니다! 새로고침 해주세요');
+          showStatus('Preset saved! Please refresh the page.');
         }
       });
     }
@@ -91,7 +92,7 @@ const DEFAULT_PRESETS = [
           document.getElementById(`preset${i+1}-height`).value = DEFAULT_PRESETS[i].height;
         }
         
-        showStatus('재설정되었습니다! 새로고침 해주세요');
+        showStatus('Preset reset done! Please refresh the page.');
       });
     }
   });

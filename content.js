@@ -27,10 +27,11 @@ function addPresetButtons() {
       
       // 기본 프리셋 값
       const DEFAULT_PRESETS = [
-        { width: 832, height: 1216, label: '832×1216' },
+        { width: 1024, height: 1024, label: '1024×1024' },
         { width: 896, height: 1152, label: '896x1152' },
+        { width: 832, height: 1216, label: '832×1216' },
         { width: 768, height: 1280, label: '768×1280' },
-        { width: 1024, height: 1024, label: '1024×1024' }
+        { width: 512, height: 1920, label: '512×1920' }
       ];
       
       // Get presets from storage or use defaults
