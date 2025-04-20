@@ -1,22 +1,49 @@
 // Function to create and add the preset buttons
-function addPresetButtons() {
-    // Find all containers that might hold the dimension inputs (for both mobile and desktop)
-    const selectContainers = document.querySelectorAll('.select.css-xnz0ry-container');
-    
-    if (selectContainers.length === 0) {
-      // Retry after a short delay if elements aren't loaded yet
-      setTimeout(addPresetButtons, 1000);
-      return;
+
+// 텍스트 헤더("Image Settings" | "画像設定")를 기준으로
+// 바로 다음 <div> 컨테이너를 찾아 반환
+function getSelectContainers() {
+  const containers = [];
+
+  // XPath로 텍스트가 정확히 일치하는 <div>를 찾음
+  const xpath =
+    "//div[normalize-space(text())='Image Settings' or normalize-space(text())='画像設定']";
+  const iterator = document.evaluate(
+    xpath,
+    document,
+    null,
+    XPathResult.ORDERED_NODE_ITERATOR_TYPE,
+    null
+  );
+
+  for (let node = iterator.iterateNext(); node; node = iterator.iterateNext()) {
+    // ① 헤더의 형제 div가 바로 컨테이너인 경우
+    if (node.nextElementSibling) {
+      containers.push(node.nextElementSibling);
     }
+    // ② 또는 헤더를 감싸는 부모 다음 형제를 컨테이너로 취급 (레이아웃이 바뀐 경우 대비)
+    else if (node.parentElement && node.parentElement.nextElementSibling) {
+      containers.push(node.parentElement.nextElementSibling);
+    }
+  }
+  return containers;
+}
+
+function addPresetButtons() {    
+    const selectContainers = getSelectContainers();
+
+    let parent;
+
+  if (selectContainers.length === 0) {
+    // 아직 DOM이 완전히 안 뜬 경우 재시도
+    setTimeout(addPresetButtons, 1000);
+    return;
+  }
     
     // Process each container
     selectContainers.forEach(selectContainer => {
       //   skip if selectContainer.parentNode has a child named id 'nai-dimension-presets'
       if (selectContainer.parentNode.parentNode.querySelector('#nai-dimension-presets')) {
-        return;
-      }
-
-      if (selectContainer.parentNode.parentNode.id === 'promptChunkContainer') {
         return;
       }
 
@@ -51,11 +78,34 @@ function addPresetButtons() {
           });
           presetContainer.appendChild(button);
         });
-        
-        // Insert the preset container after the select container
       });
-      selectContainer.parentNode.parentNode.insertBefore(presetContainer, selectContainer.parentNode);
+      parent = selectContainer.parentNode;
+      parent.insertBefore(presetContainer, selectContainer);      
+      const last = parent.lastElementChild;
+      const secondLast = last ? last.previousElementSibling : null;
+
+      if (secondLast) {
+        secondLast.style.display = 'none';
+      }
+      if (last) {
+        last.style.display = 'none';
+      }
     });
+    
+    const modelSelector = document.querySelector('.sc-7439d21c-12.crfQrQ');
+      if (modelSelector) {
+        if (!modelSelector.querySelector('#nai-dimension-presets')) {
+          const spacerdiv = document.createElement('div');
+          spacerdiv.style.display = 'flex';
+          spacerdiv.style.flexDirection = 'row';
+          spacerdiv.style.justifyContent = 'space-between';
+          spacerdiv.style.width = '100%';
+          spacerdiv.style.padding = '10px';
+          
+          modelSelector.appendChild(spacerdiv);
+          modelSelector.appendChild(parent);
+        }
+      }
   }
   
   // Find and set dimensions for inputs near a specific element
@@ -81,35 +131,6 @@ function addPresetButtons() {
       
       currentNode = currentNode.parentElement;
       maxAttempts--;
-    }
-    
-    // 방법 2: 이전 방법이 실패했다면, 페이지 전체에서 입력 필드 찾기
-    if (!inputsFound) {
-      // 모든 step="64" 속성을 가진 숫자 입력 필드 찾기
-      const allStepInputs = document.querySelectorAll('input[type="number"][step="64"]');
-      
-      // 두 개씩 그룹화하여 처리
-      for (let i = 0; i < allStepInputs.length; i += 2) {
-        if (i + 1 < allStepInputs.length) {
-          const inputs = [allStepInputs[i], allStepInputs[i + 1]];
-          processInputs(inputs, width, height);
-          inputsFound = true;
-        }
-      }
-    }
-    
-    // 방법 3: 클래스 이름으로 찾기
-    if (!inputsFound) {
-      const classInputs = document.querySelectorAll('input.hcJMLp');
-      
-      // 두 개씩 그룹화하여 처리
-      for (let i = 0; i < classInputs.length; i += 2) {
-        if (i + 1 < classInputs.length) {
-          const inputs = [classInputs[i], classInputs[i + 1]];
-          processInputs(inputs, width, height);
-          inputsFound = true;
-        }
-      }
     }
     
     if (!inputsFound) {
@@ -155,21 +176,12 @@ function addPresetButtons() {
           }
         }
       }
+
+      directInputUpdate(inputs, targetWidth, targetHeight);
       
       console.log(`Set dimensions to ${targetWidth}×${targetHeight}`);
-      
-      // 값이 제대로 설정되었는지 확인
-      setTimeout(() => {
-        if (inputs[0].value != targetWidth || inputs[1].value != targetHeight) {
-          console.log('Values did not persist, trying alternative method');
-          directInputUpdate(inputs, targetWidth, targetHeight);
-        }
-      }, 100);
     }
   }
-  
-  // 기존 setDimensions 함수를 제거하고 위의 setDimensionsNearElement와 processInputs로 대체하세요.
-  // directInputUpdate 함수는 그대로 유지합니다.
   
   
   // 대체 방법: 직접 DOM 속성 및 React props 업데이트 시도
