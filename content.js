@@ -1,5 +1,5 @@
 // Function to create and add the preset buttons
-
+let counter = 0;
 // 텍스트 헤더("Image Settings" | "画像設定")를 기준으로
 // 바로 다음 <div> 컨테이너를 찾아 반환
 function getSelectContainers() {
@@ -34,11 +34,11 @@ function addPresetButtons() {
 
     let parent;
 
-  if (selectContainers.length === 0) {
-    // 아직 DOM이 완전히 안 뜬 경우 재시도
-    setTimeout(addPresetButtons, 1000);
-    return;
-  }
+  // if (selectContainers.length === 0) {
+  //   // 아직 DOM이 완전히 안 뜬 경우 재시도
+  //   setTimeout(addPresetButtons, 1000);
+  //   return;
+  // }
     
     // Process each container
     selectContainers.forEach(selectContainer => {
@@ -91,21 +91,43 @@ function addPresetButtons() {
         last.style.display = 'none';
       }
     });
-    
-    const modelSelector = document.querySelector('.sc-7439d21c-12.crfQrQ');
-      if (modelSelector) {
-        if (!modelSelector.querySelector('#nai-dimension-presets')) {
+
+    // const modelSelector = document.querySelector('.sc-7439d21c-12.crfQrQ');
+    //   if (modelSelector) {
+    //     if (!modelSelector.querySelector('#nai-dimension-presets')) {
+          // const spacerdiv = document.createElement('div');
+          // spacerdiv.style.display = 'flex';
+          // spacerdiv.style.flexDirection = 'row';
+          // spacerdiv.style.justifyContent = 'space-between';
+          // spacerdiv.style.width = '100%';
+          // spacerdiv.style.padding = '10px';
+          
+    //       modelSelector.appendChild(spacerdiv);
+    //       modelSelector.appendChild(parent);
+    //     }
+    //   }
+
+    if (counter === 0) {
+      const settingsPanel = document.querySelector('.settings-panel');
+      if (!settingsPanel) return;
+
+      const visionTextElem = Array.from(settingsPanel.querySelectorAll('div'))
+            .find(div => div.textContent.trim() === 'Change the image, keep the vision.' || div.textContent.trim() === '絵柄を魔法のように抽出・合成・共有');
+      if (!visionTextElem) return;
+
+      const vibeContainer = visionTextElem.parentElement.parentElement.parentElement.parentElement.parentElement;
+      if (vibeContainer && !vibeContainer.parentElement.querySelector('#nai-dimension-presets') && parent) {
           const spacerdiv = document.createElement('div');
           spacerdiv.style.display = 'flex';
           spacerdiv.style.flexDirection = 'row';
           spacerdiv.style.justifyContent = 'space-between';
           spacerdiv.style.width = '100%';
           spacerdiv.style.padding = '10px';
-          
-          modelSelector.appendChild(spacerdiv);
-          modelSelector.appendChild(parent);
-        }
+          vibeContainer.parentElement.insertBefore(spacerdiv, vibeContainer);
+          vibeContainer.parentElement.insertBefore(parent, vibeContainer);
+          counter++;
       }
+    }
   }
   
   // Find and set dimensions for inputs near a specific element
@@ -240,4 +262,3 @@ function addPresetButtons() {
   initialize();
   window.addEventListener('load', initialize);
   window.addEventListener('DOMContentLoaded', initialize);
-  
